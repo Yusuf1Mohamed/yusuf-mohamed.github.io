@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yusuf | Mechanical Engineering Portfolio</title>
+  <meta name="description" content="Personal portfolio of a Mechanical Engineering student specializing in computational thermodynamic analysis, Rankine cycle modeling, and mechanical design." />
+
+  <!-- Fonts: Space Mono (technical labels) + Barlow (headings/body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'surface':      '#0f0f0f',
+            'surface-2':    '#141414',
+            'border-dim':   '#1a1a1a',
+            'accent':       '#1D4ED8',
+            'accent-mid':   '#2563EB',
+            'accent-bright':'#3B82F6',
+            'accent-pale':  '#60A5FA',
+            'accent-ghost': 'rgba(29,78,216,0.12)',
+          },
+          fontFamily: {
+            'sans': ['Barlow', 'sans-serif'],
+            'mono': ['Space Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: #0a0a0a; }
+
+    body {
+      background-color: #0a0a0a;
+      color: #e8e8e8;
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Blueprint grid background (hero) ─── */
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(29,78,216,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29,78,216,0.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    /* ─── Dot-grid (skills section) ─── */
+    .dot-grid {
+      background-image: radial-gradient(rgba(29,78,216,0.18) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* ─── Glowing orb behind hero headline ─── */
+    .hero-orb {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(29,78,216,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    /* ─── Section label ─── */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      color: #1D4ED8;
+      text-transform: uppercase;
+    }
+
+    /* ─── Sticky nav ─── */
+    nav {
+      border-bottom: 1px solid #141414;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(10,10,10,0.88);
+    }
+
+    /* ─── Primary button ─── */
+    .btn-primary {
+      background: #1D4ED8;
+      border: 1px solid #1D4ED8;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.15s ease;
+    }
+    .btn-primary:hover {
+      background: #2563EB;
+      box-shadow: 0 0 28px rgba(29,78,216,0.45), 0 4px 16px rgba(0,0,0,0.4);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ─── Outline button ─── */
+    .btn-outline {
+      border: 1px solid rgba(29,78,216,0.45);
+      color: #60A5FA;
+      background: transparent;
+      transition: border-color 0.22s, background 0.22s, color 0.22s, transform 0.15s;
+    }
+    .btn-outline:hover {
+      border-color: #1D4ED8;
+      background: rgba(29,78,216,0.10);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-outline:active { transform: translateY(0); }
+
+    /* ─── Card base ─── */
+    .card {
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      border-color: rgba(29,78,216,0.38);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(29,78,216,0.08);
+    }
+
+    /* ─── Project card: animated left accent bar ─── */
+    .project-card {
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
+      border-left: 2px solid #1D4ED8;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 0;
+      background: linear-gradient(to bottom, #1D4ED8 0%, #60A5FA 100%);
+      transition: height 0.4s ease;
+    }
+    .project-card:hover::after { height: 100%; }
+    .project-card:hover {
+      border-top-color: rgba(29,78,216,0.3);
+      border-right-color: rgba(29,78,216,0.3);
+      border-bottom-color: rgba(29,78,216,0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(29,78,216,0.1);
+    }
+
+    /* ─── Corner bracket decoration ─── */
+    .corner-bracket {
+      position: relative;
+    }
+    .corner-bracket::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 14px; height: 14px;
+      border-top: 2px solid rgba(29,78,216,0.55);
+      border-left: 2px solid rgba(29,78,216,0.55);
+      pointer-events: none;
+    }
+    .corner-bracket::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 14px; height: 14px;
+      border-bottom: 2px solid rgba(29,78,216,0.55);
+      border-right: 2px solid rgba(29,78,216,0.55);
+      pointer-events: none;
+    }
+
+    /* ─── Skill pill ─── */
+    .skill-pill {
+      background: rgba(29,78,216,0.08);
+      border: 1px solid rgba(29,78,216,0.22);
+      color: #b0c4de;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+    .skill-pill:hover {
+      background: rgba(29,78,216,0.22);
+      border-color: #1D4ED8;
+      color: #93C5FD;
+    }
+
+    /* ─── Tool tag ─── */
+    .tool-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      background: #141414;
+      border: 1px solid #202020;
+      color: #666;
+      letter-spacing: 0.06em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .tool-tag:hover {
+      border-color: rgba(29,78,216,0.45);
+      color: #93C5FD;
+    }
+
+    /* ─── Fade-up scroll animation ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(.25,.46,.45,.94),
+                  transform 0.65s cubic-bezier(.25,.46,.45,.94);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Scroll bounce ─── */
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(7px); }
+    }
+    .scroll-bounce { animation: scroll-bounce 2.2s ease-in-out infinite; }
+
+    /* ─── Typewriter cursor blink ─── */
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 0.9em;
+      background: #1D4ED8;
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ─── Mobile menu ─── */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: flex; }
+
+    /* ─── Horizontal rule with gradient ─── */
+    .hr-gradient {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #1a1a1a 20%, #1a1a1a 80%, transparent);
+    }
+
+    /* ─── Contact card hover ─── */
+    .contact-card {
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .contact-card:hover {
+      border-color: rgba(29,78,216,0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+    }
+
+    /* ─── Icon box ─── */
+    .icon-box {
+      width: 2.75rem; height: 2.75rem;
+      border: 1px solid rgba(29,78,216,0.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.25s;
+    }
+    .contact-card:hover .icon-box { border-color: #1D4ED8; }
+    .card:hover .icon-box { border-color: rgba(29,78,216,0.6); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════ -->
+  <nav class="fixed top-0 left-0 w-full z-50 px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+
+      <!-- Logotype -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-7 h-7 border border-[#1D4ED8] flex items-center justify-center transition-all group-hover:bg-[rgba(29,78,216,0.15)]">
+          <div class="w-3 h-3 bg-[#1D4ED8]"></div>
+        </div>
+        <span class="font-mono text-xs text-gray-400 tracking-[0.25em] uppercase group-hover:text-white transition-colors">
+          ME<span class="text-[#1D4ED8]">.</span>Portfolio
+        </span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#skills"   class="font-mono text-[0.7rem] text-gray-500 hover:text-white tracking-widest uppercase transition-colors">Skills</a>
+        <a href="#projects" class="font-mono text-[0.7rem] text-gray-500 hover:text-white tracking-widest uppercase transition-colors">Projects</a>
+        <a href="#contact"  class="font-mono text-[0.7rem] text-gray-500 hover:text-white tracking-widest uppercase transition-colors">Contact</a>
+        <a href="#contact"  class="btn-primary font-mono text-[0.7rem] px-5 py-2.5 tracking-widest uppercase">
+          Get In Touch
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-[5px] p-2 group" aria-label="Toggle menu">
+        <span class="w-6 h-px bg-gray-400 block transition-all group-hover:bg-white"></span>
+        <span class="w-4 h-px bg-[#1D4ED8] block transition-all"></span>
+        <span class="w-6 h-px bg-gray-400 block transition-all group-hover:bg-white"></span>
+      </button>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div id="mobile-menu" class="flex-col gap-5 pt-6 pb-5 border-t border-[#171717] mt-4 px-1 max-w-6xl mx-auto">
+      <a href="#skills"   class="font-mono text-sm text-gray-400 hover:text-white tracking-widest uppercase transition-colors">Skills</a>
+      <a href="#projects" class="font-mono text-sm text-gray-400 hover:text-white tracking-widest uppercase transition-colors">Projects</a>
+      <a href="#contact"  class="font-mono text-sm text-gray-400 hover:text-white tracking-widest uppercase transition-colors">Contact</a>
+    </div>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════════ -->
+  <section class="hero-grid relative min-h-screen flex flex-col justify-center pt-20 px-6 overflow-hidden">
+
+    <!-- Glowing orb -->
+    <div class="hero-orb" style="top: 10%; left: 55%;"></div>
+
+    <!-- Top-left accent lines -->
+    <div class="absolute top-28 left-0 w-36 h-px bg-gradient-to-r from-[#1D4ED8] to-transparent opacity-60"></div>
+    <div class="absolute top-0 left-44 w-px h-28 bg-gradient-to-b from-[#1D4ED8] to-transparent opacity-30"></div>
+
+    <!-- Decorative coordinate label -->
+    <div class="absolute top-36 right-10 font-mono text-[9px] text-gray-700 hidden lg:block select-none leading-relaxed">
+      LAT: 31.2001°N<br/>LON: 29.9187°E<br/>ALX, EGY
+    </div>
+
+    <!-- Vertical text strip -->
+    <div class="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-4 select-none">
+      <div class="w-px h-16 bg-gradient-to-b from-transparent to-[rgba(29,78,216,0.4)]"></div>
+      <span class="font-mono text-[9px] text-gray-600 tracking-[0.22em] uppercase"
+            style="writing-mode:vertical-rl; transform:rotate(180deg)">
+        Faculty of Engineering — Alexandria University
+      </span>
+      <div class="w-px h-16 bg-gradient-to-t from-transparent to-[rgba(29,78,216,0.4)]"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto w-full">
+
+      <!-- Section label -->
+      <div class="flex items-center gap-4 mb-8 fade-up">
+        <span class="section-label">/ 01 — Introduction</span>
+        <div class="flex-1 h-px bg-gradient-to-r from-[rgba(29,78,216,0.45)] to-transparent max-w-[200px]"></div>
+      </div>
+
+      <!-- Headline -->
+      <div class="mb-7 fade-up" style="transition-delay:0.10s">
+        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black text-white leading-[1.02] tracking-tight">
+          Mechanical<br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#1D4ED8] to-[#3B82F6]">Engineering</span><br/>
+          Portfolio<span class="text-[#1D4ED8]">.</span>
+        </h1>
+      </div>
+
+      <!-- Subheadline with typewriter -->
+      <div class="mb-10 fade-up" style="transition-delay:0.20s">
+        <p class="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed font-light">
+          First-year Mechanical Engineering student at
+          <span class="text-gray-200 font-medium">Alexandria University</span>
+          — specializing in
+          <span class="text-[#60A5FA]">computational thermodynamic analysis</span>,
+          <span class="text-[#60A5FA]">Rankine cycle modeling</span>, and
+          <span class="text-[#60A5FA]">mechanical design</span>.
+          <span class="cursor" aria-hidden="true"></span>
+        </p>
+      </div>
+
+      <!-- CTA Row -->
+      <div class="flex flex-wrap items-center gap-4 fade-up" style="transition-delay:0.30s">
+        <a href="#projects"
+           class="btn-primary font-semibold px-8 py-3.5 text-sm tracking-wide flex items-center gap-3 group">
+          View Technical Projects
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+        <a href="#contact" class="btn-outline px-8 py-3.5 text-sm font-semibold tracking-wide">
+          Contact Me
+        </a>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="mt-16 pt-8 border-t border-[#151515] grid grid-cols-2 md:grid-cols-4 gap-6 fade-up" style="transition-delay:0.40s">
+        <div>
+          <div class="font-mono text-2xl font-bold text-white">2</div>
+          <div class="text-xs text-gray-600 mt-1 tracking-wide">Academic Projects</div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-bold text-white">5+</div>
+          <div class="text-xs text-gray-600 mt-1 tracking-wide">Engineering Tools</div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-bold text-white">MEC</div>
+          <div class="text-xs text-gray-600 mt-1 tracking-wide">Specialization</div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-bold text-white">ALX</div>
+          <div class="text-xs text-gray-600 mt-1 tracking-wide">Alexandria, Egypt</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 scroll-bounce flex flex-col items-center gap-2 pointer-events-none select-none">
+      <span class="font-mono text-[9px] text-gray-700 tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-7 bg-gradient-to-b from-gray-700 to-transparent"></div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════
+       SKILLS / CORE COMPETENCIES
+  ════════════════════════════════════════════════ -->
+  <section id="skills" class="py-28 px-6 border-t border-[#111]">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header -->
+      <div class="mb-16 fade-up">
+        <div class="flex items-center gap-4 mb-5">
+          <span class="section-label">/ 02 — Core Competencies</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-[rgba(29,78,216,0.4)] to-transparent max-w-[200px]"></div>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black text-white">Technical Arsenal.</h2>
+        <p class="text-gray-500 mt-3 max-w-lg text-sm leading-relaxed">
+          Tools and methods applied across thermodynamic simulation, 3D design, and academic documentation.
+        </p>
+      </div>
+
+      <!-- Three-column grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Category 1 -->
+        <div class="card corner-bracket p-7 flex flex-col gap-6 fade-up">
+          <div class="flex items-start gap-4">
+            <div class="icon-box">
+              <!-- Gear SVG -->
+              <svg class="w-4 h-4 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0
+                     002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0
+                     001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0
+                     00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0
+                     00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0
+                     00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0
+                     00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0
+                     001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-mono text-[9px] text-gray-600 uppercase tracking-widest mb-1">Category — 01</p>
+              <h3 class="text-white font-semibold text-base leading-snug">Engineering Software</h3>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">MATLAB</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">SolidWorks</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">EES</span>
+          </div>
+          <p class="text-xs text-gray-600 leading-relaxed mt-auto">
+            Simulation, 3D solid modeling, thermodynamic equation solving, and CAD-driven design workflows.
+          </p>
+        </div>
+
+        <!-- Category 2 -->
+        <div class="card corner-bracket p-7 flex flex-col gap-6 fade-up" style="transition-delay:0.10s">
+          <div class="flex items-start gap-4">
+            <div class="icon-box">
+              <!-- Code SVG -->
+              <svg class="w-4 h-4 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-mono text-[9px] text-gray-600 uppercase tracking-widest mb-1">Category — 02</p>
+              <h3 class="text-white font-semibold text-base leading-snug">Programming</h3>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">Python</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">matplotlib</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">NumPy</span>
+          </div>
+          <p class="text-xs text-gray-600 leading-relaxed mt-auto">
+            Engineering computations, T-s and h-s diagram generation, and data visualization for thermodynamic cycle analysis.
+          </p>
+        </div>
+
+        <!-- Category 3 -->
+        <div class="card corner-bracket p-7 flex flex-col gap-6 fade-up" style="transition-delay:0.20s">
+          <div class="flex items-start gap-4">
+            <div class="icon-box">
+              <!-- Document SVG -->
+              <svg class="w-4 h-4 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0
+                     012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0
+                     01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-mono text-[9px] text-gray-600 uppercase tracking-widest mb-1">Category — 03</p>
+              <h3 class="text-white font-semibold text-base leading-snug">Technical Documentation</h3>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">LaTeX</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">TikZ</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">BibTeX</span>
+            <span class="skill-pill font-mono text-xs px-3 py-1.5">TeXmaker</span>
+          </div>
+          <p class="text-xs text-gray-600 leading-relaxed mt-auto">
+            Academic-grade engineering reports, vector diagrams, bibliography management, and structured technical write-ups.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════
+       PROJECTS
+  ════════════════════════════════════════════════ -->
+  <section id="projects" class="py-28 px-6 border-t border-[#111]">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header -->
+      <div class="mb-16 fade-up">
+        <div class="flex items-center gap-4 mb-5">
+          <span class="section-label">/ 03 — Academic Work</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-[rgba(29,78,216,0.4)] to-transparent max-w-[200px]"></div>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black text-white">Featured Projects.</h2>
+        <p class="text-gray-500 mt-3 max-w-xl text-sm leading-relaxed">
+          Engineering analyses and design projects completed at the Faculty of Engineering, Alexandria University.
+        </p>
+      </div>
+
+      <!-- Cards grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-7">
+
+        <!-- Project 1: Rankine Cycle -->
+        <div class="project-card p-8 flex flex-col fade-up">
+
+          <div class="flex items-start justify-between mb-6 gap-4">
+            <div>
+              <p class="font-mono text-[9px] text-[#1D4ED8] uppercase tracking-widest mb-2">
+                Project / 01 — Thermodynamics II
+              </p>
+              <h3 class="text-xl font-bold text-white leading-snug">
+                Reheat-Regenerative<br/>Rankine Cycle Analysis
+              </h3>
+            </div>
+            <div class="icon-box flex-shrink-0" style="border-color:rgba(29,78,216,0.35)">
+              <!-- Lightning / Energy icon -->
+              <svg class="w-5 h-5 text-[#1D4ED8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+
+          <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
+            Conducted a comprehensive thermodynamic optimization of a modified Rankine Cycle utilizing MATLAB and EES. Analyzed the impact of multiple Feedwater Heaters — both Closed (CFWH) and Open (OFWH) configurations — to maximize thermal efficiency. Generated T-s and h-s diagrams for cycle state-point visualization and integrated reheating stages for performance comparison.
+          </p>
+
+          <hr class="hr-gradient mb-5" />
+
+          <div class="flex flex-wrap gap-2 mb-7">
+            <span class="tool-tag px-2.5 py-1.5">MATLAB</span>
+            <span class="tool-tag px-2.5 py-1.5">EES</span>
+            <span class="tool-tag px-2.5 py-1.5">LaTeX</span>
+            <span class="tool-tag px-2.5 py-1.5">Thermodynamics</span>
+          </div>
+
+          <a href="#" class="btn-outline font-mono text-xs px-5 py-3 text-center tracking-[0.12em] uppercase
+                             flex items-center justify-center gap-2 group w-full">
+            Read Full Report
+            <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+        </div>
+
+        <!-- Project 2: Viscometer -->
+        <div class="project-card p-8 flex flex-col fade-up" style="transition-delay:0.15s">
+
+          <div class="flex items-start justify-between mb-6 gap-4">
+            <div>
+              <p class="font-mono text-[9px] text-[#1D4ED8] uppercase tracking-widest mb-2">
+                Project / 02 — Fluid Mechanics
+              </p>
+              <h3 class="text-xl font-bold text-white leading-snug">
+                Gravity-Driven<br/>Viscometer Design
+              </h3>
+            </div>
+            <div class="icon-box flex-shrink-0" style="border-color:rgba(29,78,216,0.35)">
+              <!-- Beaker / Flask icon -->
+              <svg class="w-5 h-5 text-[#1D4ED8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0
+                     00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0
+                     00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26
+                     1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2
+                     2 0 009 10.172V5L8 4z"/>
+              </svg>
+            </div>
+          </div>
+
+          <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
+            Designed and constructed a mechanical Stormer viscometer compliant with ASTM D1084 standards. Modeled all structural components in SolidWorks and manufactured the final assembly using aluminum and PVC. Report included calibration procedures, uncertainty analysis, and comparative viscosity measurements for multiple fluid samples.
+          </p>
+
+          <hr class="hr-gradient mb-5" />
+
+          <div class="flex flex-wrap gap-2 mb-7">
+            <span class="tool-tag px-2.5 py-1.5">SolidWorks</span>
+            <span class="tool-tag px-2.5 py-1.5">Fluid Mechanics</span>
+            <span class="tool-tag px-2.5 py-1.5">ASTM D1084</span>
+            <span class="tool-tag px-2.5 py-1.5">LaTeX</span>
+          </div>
+
+          <a href="#" class="btn-outline font-mono text-xs px-5 py-3 text-center tracking-[0.12em] uppercase
+                             flex items-center justify-center gap-2 group w-full">
+            Read Full Report
+            <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════
+       CONTACT
+  ════════════════════════════════════════════════ -->
+  <section id="contact" class="py-28 px-6 border-t border-[#111]">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header -->
+      <div class="mb-14 fade-up">
+        <div class="flex items-center gap-4 mb-5">
+          <span class="section-label">/ 04 — Contact</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-[rgba(29,78,216,0.4)] to-transparent max-w-[200px]"></div>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-3">Let's Connect.</h2>
+        <p class="text-gray-500 max-w-lg text-sm leading-relaxed">
+          Open to collaboration on engineering projects, research discussions in thermodynamics, or academic inquiries.
+        </p>
+      </div>
+
+      <!-- Contact cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 fade-up" style="transition-delay:0.1s">
+
+        <!-- Email -->
+        <a href="mailto:yusuf@example.com" class="contact-card p-7">
+          <div class="icon-box">
+            <svg class="w-5 h-5 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0
+                   002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-mono text-[9px] text-gray-600 uppercase tracking-widest mb-1">Email</p>
+            <p class="text-white font-medium text-sm hover:text-[#60A5FA] transition-colors">yusuf@example.com</p>
+            <p class="font-mono text-[10px] text-gray-700 mt-1">Click to send a message</p>
+          </div>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="contact-card p-7">
+          <div class="icon-box">
+            <svg class="w-5 h-5 text-[#3B82F6]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136
+                       1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85
+                       3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062
+                       0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225
+                       0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771
+                       24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222
+                       0h.003z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-mono text-[9px] text-gray-600 uppercase tracking-widest mb-1">LinkedIn</p>
+            <p class="text-white font-medium text-sm">linkedin.com/in/yourprofile</p>
+            <p class="font-mono text-[10px] text-gray-700 mt-1">View professional profile</p>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer class="border-t border-[#111] py-8 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+      <div class="flex items-center gap-3">
+        <div class="w-5 h-5 border border-[rgba(29,78,216,0.35)] flex items-center justify-center">
+          <div class="w-2 h-2 bg-[#1D4ED8]"></div>
+        </div>
+        <span class="font-mono text-[10px] text-gray-700 tracking-wider uppercase">
+          Mechanical Engineering Portfolio
+        </span>
+      </div>
+
+      <p class="font-mono text-[9px] text-gray-700 tracking-widest uppercase text-center">
+        Faculty of Engineering — Alexandria University — Egypt
+      </p>
+
+      <p class="font-mono text-[10px] text-gray-700">
+        © <span id="year"></span> — All Rights Reserved
+      </p>
+
+    </div>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════════════ -->
+  <script>
+    // ── Footer year ──────────────────────────────
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Mobile menu ──────────────────────────────
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // ── Scroll-triggered fade-up ─────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger elements already in viewport on load (hero)
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.fade-up').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 40) {
+          // respect transition-delay from inline style
+          const delay = parseFloat(el.style.transitionDelay || '0') * 1000;
+          setTimeout(() => el.classList.add('visible'), delay + 80);
+        }
+      });
+    });
+
+    // ── Smooth scroll ─────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = 80; // nav height
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ── Nav highlight on scroll ───────────────────
+    const sections = ['skills', 'projects', 'contact'].map(id => document.getElementById(id));
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY + 120;
+      let current = '';
+      sections.forEach(section => {
+        if (section && section.offsetTop <= scrollY) current = section.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('text-white', link.getAttribute('href') === '#' + current);
+        link.classList.toggle('text-gray-500', link.getAttribute('href') !== '#' + current);
+      });
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
